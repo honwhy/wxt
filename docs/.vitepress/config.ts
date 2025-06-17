@@ -64,7 +64,17 @@ const knowledge = addKnowledge<DefaultTheme.Config>({
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   extends: knowledge,
-
+  locales: {
+    zh: {
+      label: '简体中文',
+      lang: 'zh',
+      link: '/zh',
+    },
+    root: {
+      label: 'English',
+      lang: 'en',
+    },
+  },
   titleTemplate: `:title${titleSuffix}`,
   title: 'WXT',
   description,
