@@ -65,12 +65,15 @@ const knowledge = addKnowledge<DefaultTheme.Config>({
 export default defineConfig({
   extends: knowledge,
   locales: {
-    zh: {
+    root: {
       label: '简体中文',
       lang: 'zh',
       link: '/zh',
+      themeConfig: {
+        nav: [navItem('指南', '/zh/guide/installation')],
+      },
     },
-    root: {
+    en: {
       label: 'English',
       lang: 'en',
     },
