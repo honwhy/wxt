@@ -70,7 +70,106 @@ export default defineConfig({
       lang: 'zh',
       link: '/zh',
       themeConfig: {
-        nav: [navItem('指南', '/zh/guide/installation')],
+        nav: [
+          navItem('指南', '/zh/guide/installation'),
+          navItem('案例', '/examples'),
+          navItem('API', '/api/reference/wxt'),
+          navItem('博客', '/blog'),
+          navItem(`v${wxtVersion}`, [
+            navItem('wxt', [
+              navItem(`v${wxtVersion}`, '/'),
+              navItem(
+                `Changelog`,
+                'https://github.com/wxt-dev/wxt/blob/main/packages/wxt/CHANGELOG.md',
+              ),
+            ]),
+            navItem(
+              'Other Packages',
+              Object.entries(otherPackages).map(([name, version]) =>
+                navItem(`@wxt-dev/${name} — ${version}`, `/${name}`),
+              ),
+            ),
+          ]),
+        ],
+
+        sidebar: {
+          '/zh/guide/': menuRoot([
+            menuGroup('快速上手', '/zh/guide/', [
+              menuItem('介绍', 'introduction.md'),
+              menuItem('安装', 'installation.md'),
+            ]),
+            menuGroup('功能要点', '/zh/guide/essentials/', [
+              menuItem('项目结构', 'project-structure.md'),
+              menuItem('入口点', 'entrypoints.md'),
+              menuGroup(
+                'Configuration',
+                '/guide/essentials/config/',
+                [
+                  menuItem('Manifest', 'manifest.md'),
+                  menuItem('Browser Startup', 'browser-startup.md'),
+                  menuItem('Auto-imports', 'auto-imports.md'),
+                  menuItem('Environment Variables', 'environment-variables.md'),
+                  menuItem('Runtime Config', 'runtime.md'),
+                  menuItem('Vite', 'vite.md'),
+                  menuItem('Build Mode', 'build-mode.md'),
+                  menuItem('TypeScript', 'typescript.md'),
+                  menuItem('Hooks', 'hooks.md'),
+                  menuItem('Entrypoint Loaders', 'entrypoint-loaders.md'),
+                ],
+                true,
+              ),
+              menuItem('Extension APIs', 'extension-apis.md'),
+              menuItem('资源', 'assets.md'),
+              menuItem(
+                'Target Different Browsers',
+                'target-different-browsers.md',
+              ),
+              menuItem('内容脚本', 'content-scripts.md'),
+              menuItem('Storage', 'storage.md'),
+              menuItem('Messaging', 'messaging.md'),
+              menuItem('I18n', 'i18n.md'),
+              menuItem('Scripting', 'scripting.md'),
+              menuItem('WXT Modules', 'wxt-modules.md'),
+              menuItem('Frontend Frameworks', 'frontend-frameworks.md'),
+              menuItem('ES Modules', 'es-modules.md'),
+              menuItem('Remote Code', 'remote-code.md'),
+              menuItem('Unit Testing', 'unit-testing.md'),
+              menuItem('E2E Testing', 'e2e-testing.md'),
+              menuItem('Publishing', 'publishing.md'),
+              menuItem('Testing Updates', 'testing-updates.md'),
+            ]),
+            menuGroup('Resources', '/guide/resources/', [
+              menuItem('Compare', 'compare.md'),
+              menuItem('FAQ', 'faq.md'),
+              menuItem('Community', 'community.md'),
+              menuItem('Upgrading WXT', 'upgrading.md'),
+              menuItem('Migrate to WXT', 'migrate.md'),
+              menuItem('How WXT Works', 'how-wxt-works.md'),
+            ]),
+          ]),
+          '/api/': menuRoot([
+            menuGroup(
+              'CLI Reference',
+              '/api/cli/',
+              [
+                menuItem('wxt', 'wxt.md'),
+                menuItem('wxt build', 'wxt-build.md'),
+                menuItem('wxt zip', 'wxt-zip.md'),
+                menuItem('wxt prepare', 'wxt-prepare.md'),
+                menuItem('wxt clean', 'wxt-clean.md'),
+                menuItem('wxt init', 'wxt-init.md'),
+                menuItem('wxt submit', 'wxt-submit.md'),
+                menuItem('wxt submit init', 'wxt-submit-init.md'),
+              ],
+              true,
+            ),
+            menuGroup(
+              'API Reference',
+              prepareTypedocSidebar(typedocSidebar),
+              true,
+            ),
+          ]),
+        },
       },
     },
     en: {
