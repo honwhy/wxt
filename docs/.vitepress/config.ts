@@ -102,11 +102,11 @@ export default defineConfig({
               menuItem('项目结构', 'project-structure.md'),
               menuItem('入口点', 'entrypoints.md'),
               menuGroup(
-                'Configuration',
-                '/guide/essentials/config/',
+                '配置',
+                '/zh/guide/essentials/config/',
                 [
                   menuItem('Manifest', 'manifest.md'),
-                  menuItem('Browser Startup', 'browser-startup.md'),
+                  menuItem('启动浏览器', 'browser-startup.md'),
                   menuItem('Auto-imports', 'auto-imports.md'),
                   menuItem('Environment Variables', 'environment-variables.md'),
                   menuItem('Runtime Config', 'runtime.md'),

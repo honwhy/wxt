@@ -1,27 +1,27 @@
 # Manifest
 
-In WXT, there is no `manifest.json` file in your source code. Instead, WXT generates the manifest from multiple sources:
+在 WXT 中，你的源代码中没有 `manifest.json` 文件。相反，WXT 会从多个来源生成清单文件：
 
-- Global options [defined in your `wxt.config.ts` file](#global-options)
-- Entrypoint-specific options [defined in your entrypoints](/guide/essentials/entrypoints#defining-manifest-options)
-- [WXT Modules](/guide/essentials/wxt-modules) added to your project can modify your manifest
-- [Hooks](/guide/essentials/config/hooks) defined in your project can modify your manifest
+- 在 `wxt.config.ts` 文件中[定义的全局选项](#global-options)
+- 在入口点中[定义的特定入口点选项](/guide/essentials/entrypoints#defining-manifest-options)
+- 添加到项目中的 [WXT 模块](/guide/essentials/wxt-modules)可以修改你的清单
+- 项目中定义的 [Hooks](/guide/essentials/config/hooks) 可以修改你的清单
 
-Your extension's `manifest.json` will be output to `.output/{target}/manifest.json` when running `wxt build`.
+运行 `wxt build` 时，你的扩展的 `manifest.json` 将输出到 `.output/{target}/manifest.json`。
 
-## Global Options
+## 全局选项
 
-To add a property to your manifest, use the `manifest` config inside your `wxt.config.ts`:
+要将属性添加到清单中，请在 `wxt.config.ts` 中使用 `manifest` 配置：
 
 ```ts
 export default defineConfig({
   manifest: {
-    // Put manual changes here
+    // 在此处放置手动更改
   },
 });
 ```
 
-You can also define the manifest as a function, and use JS to generate it based on the target browser, mode, and more.
+你也可以将清单定义为一个函数，并使用 JavaScript 根据目标浏览器、模式等动态生成它。
 
 ```ts
 export default defineConfig({
@@ -33,11 +33,11 @@ export default defineConfig({
 });
 ```
 
-### MV2 and MV3 Compatibility
+### MV2 和 MV3 兼容性
 
-When adding properties to the manifest, always define the property in it's MV3 format when possible. When targeting MV2, WXT will automatically convert these properties to their MV2 format.
+向清单添加属性时，请尽可能使用 MV3 格式定义属性。当目标为 MV2 时，WXT 会自动将这些属性转换为其 MV2 格式。
 
-For example, for this config:
+例如，对于此配置：
 
 ```ts
 export default defineConfig({
@@ -55,7 +55,7 @@ export default defineConfig({
 });
 ```
 
-WXT will generate the following manifests:
+WXT 将生成以下清单：
 
 :::code-group
 
@@ -88,24 +88,24 @@ WXT will generate the following manifests:
 
 :::
 
-You can also specify properties specific to a single manifest version, and they will be stripped out when targeting the other manifest version.
+你也可以指定仅适用于单个清单版本的属性，它们将在目标为其他清单版本时被移除。
 
-## Name
+## 名称
 
-> [Chrome Docs](https://developer.chrome.com/docs/extensions/mv3/manifest/name/)
+> [Chrome 文档](https://developer.chrome.com/docs/extensions/mv3/manifest/name/)
 
-If not provided via the `manifest` config, the manifest's `name` property defaults to your `package.json`'s `name` property.
+如果未通过 `manifest` 配置提供，清单的 `name` 属性将默认使用 `package.json` 中的 `name` 属性。
 
-## Version and Version Name
+## 版本和版本名称
 
-> [Chrome Docs](https://developer.chrome.com/docs/extensions/mv3/manifest/version/)
+> [Chrome 文档](https://developer.chrome.com/docs/extensions/mv3/manifest/version/)
 
-Your extension's `version` and `version_name` is based on the `version` from your `package.json`.
+你的扩展的 `version` 和 `version_name` 基于 `package.json` 中的 `version`。
 
-- `version_name` is the exact string listed
-- `version` is the string cleaned up, with any invalid suffixes removed
+- `version_name` 是列出的确切字符串
+- `version` 是清理后的字符串，移除了任何无效后缀
 
-Example:
+示例：
 
 ```json
 // package.json
@@ -122,11 +122,11 @@ Example:
 }
 ```
 
-If a version is not present in your `package.json`, it defaults to `"0.0.0"`.
+如果你的 `package.json` 中不存在版本，则默认为 `"0.0.0"`。
 
-## Icons
+## 图标
 
-WXT automatically discovers your extension's icon by looking at files in the `public/` directory:
+WXT 通过查看 `public/` 目录中的文件自动发现扩展图标：
 
 ```plaintext
 public/
@@ -137,11 +137,11 @@ public/
 └─ icon-128.png
 ```
 
-Specifically, an icon must match one of these regex to be discovered:
+具体来说，图标必须匹配以下正则表达式之一才能被发现：
 
 <<< @/../packages/wxt/src/core/utils/manifest.ts#snippet
 
-If you don't like these filename or you're migrating to WXT and don't want to rename the files, you can manually specify an `icon` in your manifest:
+如果你不喜欢这些文件名，或者你正在迁移到 WXT 且不想重命名文件，可以在清单中手动指定 `icon`：
 
 ```ts
 export default defineConfig({
@@ -157,16 +157,16 @@ export default defineConfig({
 });
 ```
 
-Alternatively, you can use [`@wxt-dev/auto-icons`](https://www.npmjs.com/package/@wxt-dev/auto-icons) to let WXT generate your icon at the required sizes.
+或者，你可以使用 [`@wxt-dev/auto-icons`](https://www.npmjs.com/package/@wxt-dev/auto-icons) 让 WXT 按所需尺寸生成图标。
 
-## Permissions
+## 权限
 
-> [Chrome docs](https://developer.chrome.com/docs/extensions/reference/permissions/)
+> [Chrome 文档](https://developer.chrome.com/docs/extensions/reference/permissions/)
 
-Most of the time, you need to manually add permissions to your manifest. Only in a few specific situations are permissions added automatically:
+大多数情况下，你需要手动向清单添加权限。只有在少数特定情况下权限会自动添加：
 
-- During development: the `tabs` and `scripting` permissions will be added to enable hot reloading.
-- When a `sidepanel` entrypoint is present: The `sidepanel` permission is added.
+- 开发期间：将添加 `tabs` 和 `scripting` 权限以启用热重载。
+- 存在 `sidepanel` 入口点时：添加 `sidepanel` 权限。
 
 ```ts
 export default defineConfig({
@@ -176,9 +176,9 @@ export default defineConfig({
 });
 ```
 
-## Host Permissions
+## 主机权限
 
-> [Chrome docs](https://developer.chrome.com/docs/extensions/develop/concepts/declare-permissions#host-permissions)
+> [Chrome 文档](https://developer.chrome.com/docs/extensions/develop/concepts/declare-permissions#host-permissions)
 
 ```ts
 export default defineConfig({
@@ -189,7 +189,7 @@ export default defineConfig({
 ```
 
 :::warning
-If you use host permissions and target both MV2 and MV3, make sure to only include the required host permissions for each version:
+如果你使用主机权限并同时针对 MV2 和 MV3，请确保仅为每个版本包含所需的主机权限：
 
 ```ts
 export default defineConfig({
@@ -201,7 +201,7 @@ export default defineConfig({
 
 :::
 
-## Default Locale
+## 默认区域设置
 
 ```ts
 export default defineConfig({
@@ -213,28 +213,28 @@ export default defineConfig({
 });
 ```
 
-> See [I18n docs](/guide/essentials/i18n) for a full guide on internationalizing your extension.
+> 有关扩展国际化的完整指南，请参阅 [I18n 文档](/guide/essentials/i18n)。
 
-## Actions
+## 操作
 
-In MV2, you have two options: [`browser_action`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/browser_action) and [`page_action`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/page_action). In MV3, they were merged into a single [`action`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/action) API.
+在 MV2 中，你有两个选项：[`browser_action`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/browser_action) 和 [`page_action`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/page_action)。在 MV3 中，它们被合并为单一的 [`action`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/action) API。
 
-By default, whenever an `action` is generated, WXT falls back to `browser_action` when targeting MV2.
+默认情况下，当生成 `action` 时，WXT 在目标为 MV2 时会回退到 `browser_action`。
 
-### Action With Popup
+### 带弹出页的操作
 
-To generate a manifest where a UI appears after clicking the icon, just create a [Popup entrypoint](/guide/essentials/entrypoints#popup). If you want to use a `page_action` for MV2, add the following meta tag to the HTML document's head:
+要生成点击图标后显示 UI 的清单，只需创建一个 [Popup 入口点](/guide/essentials/entrypoints#popup)。如果要在 MV2 中使用 `page_action`，请在 HTML 文档的头部添加以下元标签：
 
 ```html
 <meta name="manifest.type" content="page_action" />
 ```
 
-### Action Without Popup
+### 不带弹出页的操作
 
-If you want to use the `activeTab` permission or the `browser.action.onClicked` event, but don't want to show a popup:
+如果你想使用 `activeTab` 权限或 `browser.action.onClicked` 事件，但不想显示弹出页：
 
-1. Delete the [Popup entrypoint](/guide/essentials/entrypoints#popup) if it exists
-2. Add the `action` key to your manifest:
+1. 如果存在 [Popup 入口点](/guide/essentials/entrypoints#popup)，请删除它
+2. 向清单添加 `action` 键：
 
    ```ts
    export default defineConfig({
@@ -244,7 +244,7 @@ If you want to use the `activeTab` permission or the `browser.action.onClicked` 
    });
    ```
 
-Same as an action with a popup, WXT will fallback on using `browser_action` for MV2. To use a `page_action` instead, add that key as well:
+与带弹出页的操作相同，WXT 在 MV2 下会回退到使用 `browser_action`。要改用 `page_action`，还需添加该键：
 
 ```ts
 export default defineConfig({
