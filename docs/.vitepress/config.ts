@@ -65,7 +65,7 @@ const knowledge = addKnowledge<DefaultTheme.Config>({
 export default defineConfig({
   extends: knowledge,
   locales: {
-    root: {
+    zh: {
       label: '简体中文',
       lang: 'zh',
       link: '/zh',
@@ -172,7 +172,7 @@ export default defineConfig({
         },
       },
     },
-    en: {
+    root: {
       label: 'English',
       lang: 'en',
     },
