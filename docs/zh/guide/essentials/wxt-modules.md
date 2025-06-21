@@ -1,14 +1,14 @@
-# WXT Modules
+# WXT 模块
 
-WXT provides a "module system" that let's you run code at different steps in the build process to modify it.
+WXT 提供了一个“模块系统”，允许你在构建流程的不同阶段运行代码以进行修改。
 
 [[toc]]
 
-## Adding a Module
+## 添加模块
 
-There are two ways to add a module to your project:
+有两种方式可以向你的项目添加模块：
 
-1. **NPM**: install an NPM package, like [`@wxt-dev/auto-icons`](https://www.npmjs.com/package/@wxt-dev/auto-icons) and add it to your config:
+1. **NPM**：安装一个 NPM 包，比如 [`@wxt-dev/auto-icons`](https://www.npmjs.com/package/@wxt-dev/auto-icons)，并将其添加到你的配置中：
 
    ```ts [wxt.config.ts]
    export default defineConfig({
@@ -16,9 +16,9 @@ There are two ways to add a module to your project:
    });
    ```
 
-   > Searching for ["wxt module"](https://www.npmjs.com/search?q=wxt%20module) on NPM is a good way to find published WXT modules.
+   > 在 NPM 上搜索 ["wxt module"](https://www.npmjs.com/search?q=wxt%20module) 是查找已发布 WXT 模块的好方法。
 
-2. **Local**: add a file to your project's `modules/` directory:
+2. **本地**：在项目的 `modules/` 目录下添加一个文件：
 
    ```plaintext
    <rootDir>/
@@ -26,53 +26,53 @@ There are two ways to add a module to your project:
        my-module.ts
    ```
 
-   > To learn more about writing your own modules, read the [Writing Modules](/guide/essentials/wxt-modules) docs.
+   > 想了解如何编写自己的模块，请阅读 [编写模块](/guide/essentials/wxt-modules) 文档。
 
-## Module Options
+## 模块选项
 
-WXT modules may require or allow setting custom options to change their behavior. There are two types of options:
+WXT 模块可能需要或允许设置自定义选项来改变其行为。选项分为两类：
 
-1. **Build-time**: Any config used during the build process, like feature flags
-2. **Runtime**: Any config accessed at runtime, like callback functions
+1. **构建时**：在构建过程中使用的任何配置，比如功能开关
+2. **运行时**：在运行时访问的任何配置，比如回调函数
 
-Build-time options are placed in your `wxt.config.ts`, while runtime options is placed in the [`app.config.ts` file](/guide/essentials/config/runtime). Refer to each module's documentation about what options are required and where they should be placed.
+构建时选项放在你的 `wxt.config.ts` 中，而运行时选项放在 [`app.config.ts` 文件](/guide/essentials/config/runtime) 中。具体每个模块需要哪些选项以及放在哪里，请参考各模块的文档。
 
-If you use TypeScript, modules augment WXT's types so you will get type errors if options are missing or incorrect.
+如果你使用 TypeScript，模块会增强 WXT 的类型，因此如果选项缺失或不正确会有类型错误。
 
-## Execution Order
+## 执行顺序
 
-Modules are loaded in the same order as hooks are executed. Refer to the [Hooks documentation](/guide/essentials/config/hooks#execution-order) for more details.
+模块的加载顺序与钩子的执行顺序一致。详情请参考 [钩子文档](/guide/essentials/config/hooks#execution-order)。
 
-## Writing Modules
+## 编写模块
 
-Here's what a basic WXT module looks like:
+下面是一个基础的 WXT 模块示例：
 
 ```ts
 import { defineWxtModule } from 'wxt/modules';
 
 export default defineWxtModule({
   setup(wxt) {
-    // Your module code here...
+    // 你的模块代码...
   },
 });
 ```
 
-Each module's setup function is executed after the `wxt.config.ts` file is loaded. The `wxt` object provides everything you need to write a module:
+每个模块的 setup 函数会在 `wxt.config.ts` 文件加载后执行。`wxt` 对象提供了编写模块所需的一切：
 
-- Use `wxt.hook(...)` to hook into the build's lifecycle and make changes
-- Use `wxt.config` to get the resolved config from the project's `wxt.config.ts` file
-- Use `wxt.logger` to log messages to the console
-- and more!
+- 使用 `wxt.hook(...)` 钩入构建生命周期并进行修改
+- 使用 `wxt.config` 获取项目 `wxt.config.ts` 文件的解析配置
+- 使用 `wxt.logger` 向控制台输出日志
+- 以及更多！
 
-Refer to the [API reference](/api/reference/wxt/interfaces/Wxt) for a complete list of properties and functions available.
+完整属性和函数列表请参考 [API 参考](/api/reference/wxt/interfaces/Wxt)。
 
-Also to make sure and read about all the [hooks that are available](https://wxt.dev/api/reference/wxt/interfaces/WxtHooks) - they are essential to writing modules.
+另外一定要阅读所有 [可用钩子](https://wxt.dev/api/reference/wxt/interfaces/WxtHooks) 的介绍——它们对编写模块至关重要。
 
-### Recipes
+### 配方
 
-Modules are complex and require a deeper understanding of WXT's code and how it works. The best way to learn is by example.
+模块较为复杂，需要对 WXT 的代码和工作原理有更深入的理解。最好的学习方式是看示例。
 
-#### Update resolved config
+#### 更新解析配置
 
 ```ts
 import { defineWxtModule } from 'wxt/modules';
@@ -86,18 +86,18 @@ export default defineWxtModule({
 });
 ```
 
-#### Add built-time config
+#### 添加构建时配置
 
 ```ts
 import { defineWxtModule } from 'wxt/modules';
 import 'wxt';
 
 export interface MyModuleOptions {
-  // Add your build-time options here...
+  // 在这里添加你的构建时选项...
 }
 declare module 'wxt' {
   export interface InlineConfig {
-    // Add types for the "myModule" key in wxt.config.ts
+    // 为 wxt.config.ts 中的 "myModule" 键添加类型
     myModule: MyModuleOptions;
   }
 }
@@ -105,21 +105,21 @@ declare module 'wxt' {
 export default defineWxtModule<AnalyticModuleOptions>({
   configKey: 'myModule',
 
-  // Build time config is available via the second argument of setup
+  // 构建时配置通过 setup 的第二个参数获取
   setup(wxt, options) {
     console.log(options);
   },
 });
 ```
 
-#### Add runtime config
+#### 添加运行时配置
 
 ```ts
 import { defineWxtModule } from 'wxt/modules';
 import 'wxt/utils/define-app-config';
 
 export interface MyModuleRuntimeOptions {
-  // Add your runtime options here...
+  // 在这里添加你的运行时选项...
 }
 declare module 'wxt/utils/define-app-config' {
   export interface WxtAppConfig {
@@ -128,23 +128,23 @@ declare module 'wxt/utils/define-app-config' {
 }
 ```
 
-Runtime options are returned when calling
+运行时选项可通过如下方式获取
 
 ```ts
 const config = useAppConfig();
 console.log(config.myModule);
 ```
 
-This is very useful when [generating runtime code](#generate-runtime-module).
+这在[生成运行时代码](#generate-runtime-module)时非常有用。
 
-#### Generate output file
+#### 生成输出文件
 
 ```ts
 import { defineWxtModule } from 'wxt/modules';
 
 export default defineWxtModule({
   setup(wxt) {
-    // Relative to the output directory
+    // 相对于输出目录
     const generatedFilePath = 'some-file.txt';
 
     wxt.hook('build:publicAssets', (_, assets) => {
@@ -165,18 +165,18 @@ export default defineWxtModule({
 });
 ```
 
-This file could then be loaded at runtime:
+该文件可在运行时加载：
 
 ```ts
 const res = await fetch(browser.runtime.getURL('/some-text.txt'));
 ```
 
-#### Add custom entrypoints
+#### 添加自定义入口
 
-Once the existing files under the `entrypoints/` directory have been discovered, the `entrypoints:found` hook can be used to add custom entrypoints.
+在发现 `entrypoints/` 目录下的现有文件后，可以使用 `entrypoints:found` 钩子添加自定义入口。
 
 :::info
-The `entrypoints:found` hook is triggered before validation is carried out on the list of entrypoints. Thus, any custom entrypoints will still be checked for duplicate names and logged during debugging.
+`entrypoints:found` 钩子会在对入口列表进行校验之前触发。因此，任何自定义入口仍会被检查是否重名，并在调试时记录。
 :::
 
 ```ts
@@ -185,7 +185,7 @@ import { defineWxtModule } from 'wxt/modules';
 export default defineWxtModule({
   setup(wxt) {
     wxt.hook('entrypoints:found', (_, entrypointInfos) => {
-      // Add your new entrypoint
+      // 添加你的新入口
       entrypointInfos.push({
         name: 'my-custom-script',
         inputPath: 'path/to/custom-script.js',
@@ -196,9 +196,9 @@ export default defineWxtModule({
 });
 ```
 
-#### Generate runtime module
+#### 生成运行时代码模块
 
-Create a file in `.wxt`, add an alias to import it, and add auto-imports for exported variables.
+在 `.wxt` 目录下创建文件，添加别名用于导入，并为导出的变量添加自动导入。
 
 ```ts
 import { defineWxtModule } from 'wxt/modules';
@@ -206,7 +206,7 @@ import { resolve } from 'node:path';
 
 export default defineWxtModule({
   imports: [
-    // Add auto-imports
+    // 添加自动导入
     { from: '#analytics', name: 'analytics' },
     { from: '#analytics', name: 'reportEvent' },
     { from: '#analytics', name: 'reportPageView' },
@@ -236,7 +236,7 @@ export default defineWxtModule({
 });
 ```
 
-#### Generate declaration file
+#### 生成声明文件
 
 ```ts
 import { defineWxtModule } from 'wxt/modules';
@@ -246,16 +246,16 @@ export default defineWxtModule({
   setup(wxt) {
     const typesPath = resolve(wxt.config.wxtDir, 'my-module/types.d.ts');
     const typesCode = `
-      // Declare global types, perform type augmentation
+      // 声明全局类型，进行类型增强
     `;
 
     wxt.hook('prepare:types', async (_, entries) => {
       entries.push({
         path: 'my-module/types.d.ts',
         text: `
-          // Declare global types, perform type augmentation, etc
+          // 声明全局类型，进行类型增强等
         `,
-        // IMPORTANT - without this line your declaration file will not be a part of the TS project:
+        // 重要 - 没有这行你的声明文件不会被 TS 项目包含：
         tsReference: true,
       });
     });
@@ -263,9 +263,9 @@ export default defineWxtModule({
 });
 ```
 
-### Example Modules
+### 示例模块
 
-You should also look through the code of modules other people have written and published. Here's some examples:
+你还可以阅读其他人编写并发布的模块代码。以下是一些示例：
 
 - [`@wxt-dev/auto-icons`](https://github.com/wxt-dev/wxt/blob/main/packages/auto-icons)
 - [`@wxt-dev/i18n`](https://github.com/wxt-dev/wxt/blob/main/packages/i18n)

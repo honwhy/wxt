@@ -1,10 +1,10 @@
-# Unit Testing
+# 单元测试
 
 [[toc]]
 
 ## Vitest
 
-WXT provides first class support for Vitest for unit testing:
+WXT 为单元测试提供了对 Vitest 的一流支持：
 
 ```ts
 // vitest.config.ts
@@ -16,23 +16,23 @@ export default defineConfig({
 });
 ```
 
-This plugin does several things:
+此插件会做以下几件事：
 
-- Polyfills the extension API, `browser`, with an in-memory implementation using [`@webext-core/fake-browser`](https://webext-core.aklinker1.io/fake-browser/installation)
-- Adds all vite config or plugins in `wxt.config.ts`
-- Configures auto-imports (if enabled)
-- Applies internal WXT vite plugins for things like [bundling remote code](/guide/essentials/remote-code)
-- Sets up global variables provided by WXT (`import.meta.env.BROWSER`, `import.meta.env.MANIFEST_VERSION`, `import.meta.env.IS_CHROME`, etc)
-- Configures aliases (`@/*`, `@@/*`, etc) so imports can be resolved
+- 使用 [`@webext-core/fake-browser`](https://webext-core.aklinker1.io/fake-browser/installation) 提供的内存实现对扩展 API `browser` 进行 polyfill
+- 添加 `wxt.config.ts` 中的所有 vite 配置或插件
+- 配置自动导入（如果启用）
+- 应用 WXT 内部 vite 插件，用于 [远程代码打包](/guide/essentials/remote-code) 等功能
+- 设置 WXT 提供的全局变量（如 `import.meta.env.BROWSER`、`import.meta.env.MANIFEST_VERSION`、`import.meta.env.IS_CHROME` 等）
+- 配置别名（`@/*`、`@@/*` 等），以便解析导入
 
-Here are real projects with unit testing setup. Look at the code and tests to see how they're written.
+以下是真实项目的单元测试配置。可以查看代码和测试，了解它们是如何编写的。
 
 - [`aklinker1/github-better-line-counts`](https://github.com/aklinker1/github-better-line-counts)
-- [`wxt-dev/examples`'s Vitest Example](https://github.com/wxt-dev/examples/tree/main/examples/vitest-unit-testing)
+- [`wxt-dev/examples` 的 Vitest 示例](https://github.com/wxt-dev/examples/tree/main/examples/vitest-unit-testing)
 
-### Example Tests
+### 测试示例
 
-This example demonstrates that you don't have to mock `browser.storage` (used by `wxt/utils/storage`) in tests - [`@webext-core/fake-browser`](https://webext-core.aklinker1.io/fake-browser/installation) implements storage in-memory so it behaves like it would in a real extension!
+本示例演示了在测试中无需 mock `browser.storage`（`wxt/utils/storage` 使用），因为 [`@webext-core/fake-browser`](https://webext-core.aklinker1.io/fake-browser/installation) 已经实现了内存存储，其行为与真实扩展中一致！
 
 ```ts
 import { describe, it, expect } from 'vitest';
@@ -47,7 +47,7 @@ async function isLoggedIn(): Promise<Account> {
 
 describe('isLoggedIn', () => {
   beforeEach(() => {
-    // See https://webext-core.aklinker1.io/fake-browser/reseting-state
+    // 参考 https://webext-core.aklinker1.io/fake-browser/reseting-state
     fakeBrowser.reset();
   });
 
@@ -71,25 +71,25 @@ describe('isLoggedIn', () => {
 });
 ```
 
-### Mocking WXT APIs
+### Mock WXT API
 
-First, you need to understand how the `#imports` module works. When WXT (and vitest) sees this import during a preprocessing step, the import is replaced with multiple imports pointing to their "real" import path.
+首先，需要了解 `#imports` 模块的工作原理。当 WXT（和 vitest）在预处理步骤中看到此导入时，会将其替换为指向“真实”导入路径的多个导入。
 
-For example, this is what your write in your source code:
+例如，你在源码中这样写：
 
 ```ts
-// What you write
+// 你的写法
 import { injectScript, createShadowRootUi } from '#imports';
 ```
 
-But Vitest sees this:
+但 Vitest 实际看到的是：
 
 ```ts
 import { injectScript } from 'wxt/utils/inject-script';
 import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root';
 ```
 
-So in this case, if you wanted to mock `injectScript`, you need to pass in `"wxt/utils/inject-script"`, not `"#imports"`.
+所以，如果你想 mock `injectScript`，需要传入 `"wxt/utils/inject-script"`，而不是 `"#imports"`。
 
 ```ts
 vi.mock("wxt/utils/inject-script", () => ({
@@ -97,12 +97,12 @@ vi.mock("wxt/utils/inject-script", () => ({
 }))
 ```
 
-Refer to your project's `.wxt/types/imports-module.d.ts` file to lookup real import paths for `#imports`. If the file doesn't exist, run [`wxt prepare`](/guide/essentials/config/typescript).
+可以参考项目的 `.wxt/types/imports-module.d.ts` 文件，查找 `#imports` 的真实导入路径。如果该文件不存在，请运行 [`wxt prepare`](/guide/essentials/config/typescript)。
 
-## Other Testing Frameworks
+## 其他测试框架
 
-To use a different framework, you will likely have to disable auto-imports, setup import aliases, manually mock the extension APIs, and setup the test environment to support all of WXT's features that you use.
+如果要使用其他测试框架，通常需要禁用自动导入、手动配置导入别名、手动 mock 扩展 API，并设置测试环境以支持你所用的所有 WXT 特性。
 
-It is possible to do, but will require a bit more setup. Refer to Vitest's setup for an example of how to setup a test environment:
+这是可行的，但需要更多配置。可以参考 Vitest 的配置，了解如何设置测试环境：
 
 <https://github.com/wxt-dev/wxt/blob/main/packages/wxt/src/testing/wxt-vitest-plugin.ts>

@@ -1,12 +1,12 @@
-# Scripting
+# 脚本注入（Scripting）
 
-[Chrome Docs](https://developer.chrome.com/docs/extensions/reference/api/scripting) • [Firefox Docs](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/scripting)
+[Chrome 文档](https://developer.chrome.com/docs/extensions/reference/api/scripting) • [Firefox 文档](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/scripting)
 
-Refer to the browser docs above for basics on how the API works.
+基础用法请参考上方浏览器官方文档。
 
-## Execute Script Return Values
+## 执行脚本的返回值
 
-When using `browser.scripting.executeScript`, you can execute content scripts or unlisted scripts. To return a value, just return a value from the script's `main` function.
+使用 `browser.scripting.executeScript` 时，你可以执行内容脚本或未列出的脚本。要返回值，只需在脚本的 `main` 函数中返回一个值即可。
 
 ```ts
 // entrypoints/background.ts

@@ -1,10 +1,10 @@
-# ES Modules
+# ES 模块
 
-You source code should always be written as ESM. However, you have some control whether an entrypoint is bundled as ESM.
+你的源代码应始终以 ESM（ES Modules）方式编写。不过，你可以控制入口文件是否以 ESM 方式打包。
 
-## HTML Pages <Badge type="warning" text="≥0.0.1" />
+## HTML 页面 <Badge type="warning" text="≥0.0.1" />
 
-Vite only supports bundling JS from HTML pages as ESM. Ensure you have added `type="module"` to your `<script>` tags:
+Vite 仅支持将 HTML 页面中的 JS 以 ESM 方式打包。请确保你的 `<script>` 标签添加了 `type="module"`：
 
 <!-- prettier-ignore -->
 ```html
@@ -12,9 +12,9 @@ Vite only supports bundling JS from HTML pages as ESM. Ensure you have added `ty
 <script src="./main.ts" type="module"></script> <!-- [!code ++] -->
 ```
 
-## Background <Badge type="warning" text="≥0.16.0" />
+## 后台脚本 <Badge type="warning" text="≥0.16.0" />
 
-By default, your background will be bundled into a single file as IIFE. You can change this by setting `type: "module"` in your background entrypoint:
+默认情况下，你的后台脚本会被打包为单个 IIFE 文件。你可以通过在后台入口文件中设置 `type: "module"` 来更改这一点：
 
 ```ts
 export default defineBackground({
@@ -25,14 +25,14 @@ export default defineBackground({
 });
 ```
 
-This will change the output format to ESM, enable code-spliting between your background script and HTML pages, and set `"type": "module"` in your manifest.
+这将把输出格式更改为 ESM，允许后台脚本与 HTML 页面之间进行代码分割，并在 manifest 中设置 `"type": "module"`。
 
 :::warning
-Only MV3 supports ESM background scripts/service workers. When targeting MV2, the `type` option is ignored and the background is always bundled into a single file as IIFE.
+只有 MV3 支持 ESM 后台脚本/Service Worker。如果目标为 MV2，则 `type` 选项会被忽略，后台始终会被打包为单个 IIFE 文件。
 :::
 
-## Content Scripts
+## 内容脚本
 
-WXT does not yet include built-in support for bundling content scripts as ESM. The plan is to add support for chunking to reduce bundle size, but not support HMR for now. There are several technical issues that make implementing a generic solution for HMR impossible. See [Content Script ESM Support #357](https://github.com/wxt-dev/wxt/issues/357) for details.
+WXT 目前还不支持将内容脚本内置打包为 ESM。后续计划会支持 chunk 拆分以减小包体积，但暂不支持 HMR。由于存在多项技术难题，目前无法实现通用的 HMR 方案。详情可见 [Content Script ESM Support #357](https://github.com/wxt-dev/wxt/issues/357)。
 
-If you can't wait, and need ESM support right now, you can implement ESM support manually. See the [ESM Content Script UI](https://github.com/wxt-dev/examples/tree/main/examples/esm-content-script-ui) example to learn how.
+如果你迫切需要 ESM 支持，可以手动实现。参考 [ESM Content Script UI](https://github.com/wxt-dev/examples/tree/main/examples/esm-content-script-ui) 示例了解如何操作。

@@ -1,55 +1,55 @@
-# Targeting Different Browsers
+# 针对不同浏览器进行构建
 
-When building an extension with WXT, you can create multiple builds of your extension targeting different browsers and manifest versions.
+使用 WXT 构建扩展时，你可以为不同的浏览器和清单（manifest）版本创建多个构建版本。
 
-## Target a Browser
+## 针对特定浏览器
 
-Use the `-b` CLI flag to create a separate build of your extension for a specific browser. By default, `chrome` is targeted.
+使用 `-b` CLI 标志为特定浏览器创建单独的扩展构建。默认情况下，目标是 `chrome`。
 
 ```sh
-wxt            # same as: wxt -b chrome
+wxt            # 等同于: wxt -b chrome
 wxt -b firefox
 wxt -b custom
 ```
 
-During development, if you target Firefox, Firefox will open. All other strings open Chrome by default. To customize which browsers open, see [Set Browser Binaries](/guide/essentials/config/browser-startup#set-browser-binaries).
+在开发过程中，如果你指定了 Firefox 作为目标，Firefox 会被打开。其他字符串默认会打开 Chrome。如需自定义打开哪些浏览器，请参阅 [设置浏览器二进制文件](/guide/essentials/config/browser-startup#set-browser-binaries)。
 
-Additionally, WXT defines several constants you can use at runtime to detect which browser is in use:
+此外，WXT 在运行时定义了多个常量，你可以用来检测当前使用的是哪个浏览器：
 
 ```ts
 if (import.meta.env.BROWSER === 'firefox') {
-  console.log('Do something only in Firefox builds');
+  console.log('仅在 Firefox 构建中执行某些操作');
 }
 if (import.meta.env.FIREFOX) {
-  // Shorthand, equivalent to the if-statement above
+  // 简写，与上面的 if 语句等价
 }
 ```
 
-Read about [Built-in Environment Variables](/guide/essentials/config/environment-variables.html#built-in-environment-variables) for more details.
+更多详情请阅读 [内置环境变量](/guide/essentials/config/environment-variables.html#built-in-environment-variables)。
 
-## Target a Manifest Version
+## 针对特定 Manifest 版本
 
-To target specific manifest versions, use the `--mv2` or `--mv3` CLI flags.
+如需针对特定的 manifest 版本进行构建，请使用 `--mv2` 或 `--mv3` CLI 标志。
 
-:::tip Default Manifest Version
-By default, WXT will target MV2 for Safari and Firefox and MV3 for all other browsers.
+:::tip 默认 Manifest 版本
+默认情况下，WXT 会为 Safari 和 Firefox 目标构建 MV2，为所有其他浏览器构建 MV3。
 :::
 
-Similar to the browser, you can get the target manifest version at runtime using the [built-in environment variable](/guide/essentials/config/environment-variables.html#built-in-environment-variables):
+与浏览器类似，你可以在运行时通过 [内置环境变量](/guide/essentials/config/environment-variables.html#built-in-environment-variables) 获取目标 manifest 版本：
 
 ```ts
 if (import.meta.env.MANIFEST_VERSION === 2) {
-  console.log('Do something only in MV2 builds');
+  console.log('仅在 MV2 构建中执行某些操作');
 }
 ```
 
-## Filtering Entrypoints
+## 过滤入口文件
 
-Every entrypoint can be included or excluded when targeting specific browsers via the `include` and `exclude` options.
+每个入口文件都可以通过 `include` 和 `exclude` 选项，在针对特定浏览器构建时进行包含或排除。
 
-Here are some examples:
+以下是一些示例：
 
-- Content script only built when targeting `firefox`:
+- 仅在目标为 `firefox` 时构建内容脚本：
 
   ```ts
   export default defineContentScript({
@@ -61,7 +61,7 @@ Here are some examples:
   });
   ```
 
-- HTML file only built for all targets other than `chrome`:
+- 仅为除 `chrome` 以外的所有目标构建 HTML 文件：
 
   ```html
   <!doctype html>
@@ -77,4 +77,4 @@ Here are some examples:
   </html>
   ```
 
-Alternatively, you can use the [`filterEntrypoints` config](/api/reference/wxt/interfaces/InlineConfig#filterentrypoints) to list all the entrypoints you want to build.
+另外，你也可以使用 [`filterEntrypoints` 配置](/api/reference/wxt/interfaces/InlineConfig#filterentrypoints) 来列出你想要构建的所有入口文件。

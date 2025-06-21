@@ -1,15 +1,15 @@
-# Frontend Frameworks
+# 前端框架
 
-## Built-in Modules
+## 内置模块
 
-WXT has preconfigured modules for the most popular frontend frameworks:
+WXT 为最流行的前端框架预配置了模块：
 
 - [`@wxt-dev/module-react`](https://github.com/wxt-dev/wxt/tree/main/packages/module-react)
 - [`@wxt-dev/module-vue`](https://github.com/wxt-dev/wxt/tree/main/packages/module-vue)
 - [`@wxt-dev/module-svelte`](https://github.com/wxt-dev/wxt/tree/main/packages/module-svelte)
 - [`@wxt-dev/module-solid`](https://github.com/wxt-dev/wxt/tree/main/packages/module-solid)
 
-Install the module for your framework, then add it to your config:
+安装你所用框架的模块，然后将其添加到配置中：
 
 :::code-group
 
@@ -47,11 +47,11 @@ export default defineConfig({
 
 :::
 
-## Adding Vite Plugins
+## 添加 Vite 插件
 
-If your framework doesn't have an official WXT module, no worries! WXT supports any framework with a Vite plugin.
+如果你的框架没有官方的 WXT 模块，也没关系！WXT 支持任何带有 Vite 插件的框架。
 
-Just add the Vite plugin to your config and you're good to go! Use the framework in HTML pages or content scripts and it will just work 👍
+只需将 Vite 插件添加到你的配置中即可！在 HTML 页面或内容脚本中使用该框架就能正常工作 👍
 
 ```ts
 import { defineConfig } from 'wxt';
@@ -64,38 +64,38 @@ export default defineConfig({
 });
 ```
 
-> The WXT modules just simplify the configuration and add auto-imports. They're not much different than the above.
+> WXT 模块只是简化了配置并添加了自动导入。它们和上面的方法区别不大。
 
-## Multiple Apps
+## 多应用
 
-Since web extensions usually contain multiple UIs across multiple entrypoints (popup, options, changelog, side panel, content scripts, etc), you'll need to create individual app instances, one per entrypoint.
+由于浏览器扩展通常包含多个 UI，分布在多个入口点（弹窗、选项页、更新日志、侧边栏、内容脚本等），你需要为每个入口点创建独立的应用实例。
 
-Usually, this means each entrypoint should be a directory with it's own files inside it. Here's the recommended folder structure:
+通常，这意味着每个入口点都应该是一个包含自己文件的目录。推荐的文件夹结构如下：
 
 <!-- prettier-ignore -->
 ```html
 📂 {srcDir}/
-   📂 assets/          <---------- Put shared assets here
+   📂 assets/          <---------- 放置共享资源
       📄 tailwind.css
    📂 components/
       📄 Button.tsx
    📂 entrypoints/
-      📂 options/       <--------- Use a folder with an index.html file in it
-         📁 pages/      <--------- A good place to put your router pages if you have them
+      📂 options/       <--------- 用一个包含 index.html 的文件夹作为入口
+         📁 pages/      <--------- 如果有路由页面，可以放在这里
          📄 index.html
          📄 App.tsx
-         📄 main.tsx    <--------- Create and mount your app here
-         📄 style.css   <--------- Entrypoint-specific styles
+         📄 main.tsx    <--------- 在这里创建并挂载你的应用
+         📄 style.css   <--------- 入口点专属样式
          📄 router.ts
 ```
 
-## Configuring Routers
+## 配置路由
 
-All frameworks come with routers for building a multi-page app using the URL's path... But web extensions don't work like this. Since HTML files are static, `chrome-extension://{id}/popup.html`, there's no way to change the entire path for routing.
+所有框架都带有路由器，用于通过 URL 路径构建多页面应用……但浏览器扩展并不是这样工作的。由于 HTML 文件是静态的，比如 `chrome-extension://{id}/popup.html`，无法通过更改整个路径来实现路由。
 
-Instead, you need to configure the router to run in "hash" mode, where the routing information is a part of the URL's hash, not the path (ie: `popup.html#/` and `popup.html#/account/settings`).
+因此，你需要将路由器配置为“hash”模式，将路由信息放在 URL 的 hash 部分，而不是路径（例如：`popup.html#/` 和 `popup.html#/account/settings`）。
 
-Refer to your router's docs for information about hash mode and how to enable it. Here's a non-extensive list of a few popular routers:
+请参考你所用路由器的文档，了解 hash 模式及其启用方式。以下是一些流行路由器的文档链接：
 
 - [`react-router`](https://reactrouter.com/en/main/routers/create-hash-router)
 - [`vue-router`](https://router.vuejs.org/guide/essentials/history-mode.html#Hash-Mode)

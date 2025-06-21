@@ -1,9 +1,9 @@
-# E2E Testing
+# 端到端（E2E）测试
 
 ## Playwright
 
-[Playwright](https://playwright.dev) is the only good option for writing Chrome Extension end-to-end tests.
+[Playwright](https://playwright.dev) 是目前唯一适合编写 Chrome 扩展端到端测试的优秀选择。
 
-To add E2E tests to your project, follow Playwright's [Chrome Extension docs](https://playwright.dev/docs/chrome-extensions). When you have to pass the path to your extension, pass the output directory, `/path/to/project/.output/chrome-mv3`.
+要为你的项目添加 E2E 测试，请参考 Playwright 的 [Chrome Extension 文档](https://playwright.dev/docs/chrome-extensions)。当你需要传递扩展的路径时，请传递输出目录 `/path/to/project/.output/chrome-mv3`。
 
-For a complete example, see the [WXT's Playwright Example](https://github.com/wxt-dev/examples/tree/main/examples/playwright-e2e-testing).
+完整示例请参见 [WXT 的 Playwright 示例](https://github.com/wxt-dev/examples/tree/main/examples/playwright-e2e-testing)。

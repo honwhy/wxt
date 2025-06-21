@@ -1,17 +1,17 @@
-# Messaging
+# 消息通信
 
-[Chrome Docs](https://developer.chrome.com/docs/extensions/develop/concepts/messaging) • [Firefox Docs](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#communicating_with_background_scripts)
+[Chrome 文档](https://developer.chrome.com/docs/extensions/develop/concepts/messaging) • [Firefox 文档](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#communicating_with_background_scripts)
 
-Read the docs linked above to learn more about using the vanilla messaging APIs.
+请阅读上面链接的文档，了解如何使用原生消息通信 API。
 
-## Alternatives
+## 替代方案
 
-The vanilla APIs are difficult to use and are a pain point to many new extension developers. For this reason, WXT recommends installing an NPM package that wraps around the vanilla APIs.
+原生 API 使用起来较为繁琐，对许多新的扩展开发者来说是一个难点。因此，WXT 推荐安装一个对原生 API 进行封装的 NPM 包。
 
-Here are some popular messaging libraries that support all browsers and work with WXT:
+以下是一些支持所有浏览器并可与 WXT 配合使用的流行消息通信库：
 
-- [`trpc-chrome`](https://www.npmjs.com/package/trpc-chrome) - [tRPC](https://trpc.io/) adapter for Web Extensions.
-- [`webext-bridge`](https://www.npmjs.com/package/webext-bridge) - Messaging in WebExtensions made super easy. Out of the box.
-- [`@webext-core/messaging`](https://www.npmjs.com/package/@webext-core/messaging) - Light weight, type-safe wrapper around the web extension messaging APIs
-- [`@webext-core/proxy-service`](https://www.npmjs.com/package/@webext-core/proxy-service) - A type-safe wrapper around the web extension messaging APIs that lets you call a function from anywhere, but execute it in the background.
-- [`Comctx`](https://github.com/molvqingtai/comctx) - Cross-context RPC solution with type safety and flexible adapters.
+- [`trpc-chrome`](https://www.npmjs.com/package/trpc-chrome) - [tRPC](https://trpc.io/) 的 Web 扩展适配器。
+- [`webext-bridge`](https://www.npmjs.com/package/webext-bridge) - 让 WebExtensions 消息通信变得非常简单，开箱即用。
+- [`@webext-core/messaging`](https://www.npmjs.com/package/@webext-core/messaging) - 轻量级、类型安全的 web 扩展消息通信 API 封装库。
+- [`@webext-core/proxy-service`](https://www.npmjs.com/package/@webext-core/proxy-service) - 类型安全的 web 扩展消息通信 API 封装库，可让你在任意上下文调用函数，并在后台执行。
+- [`Comctx`](https://github.com/molvqingtai/comctx) - 跨上下文的 RPC 方案，具备类型安全和灵活适配能力。

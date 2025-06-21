@@ -2,41 +2,41 @@
 outline: deep
 ---
 
-# Publishing
+# 发布
 
-WXT can ZIP your extension and submit it to various stores for review or for self-hosting.
+WXT 可以将你的扩展打包为 ZIP，并提交到各大商店进行审核或自托管。
 
-## First Time Publishing
+## 首次发布
 
-If you're publishing an extension to a store for the first time, you must manually navigate the process. WXT doesn't help you create listings, each store has unique steps and requirements that you need to familiarize yourself with.
+如果你是第一次将扩展发布到商店，必须手动完成整个流程。WXT 不会帮你创建商店页面，每个商店都有独特的步骤和要求，你需要自行了解。
 
-For specific details about each store, see the stores sections below.
+关于每个商店的具体细节，请参阅下方的商店部分。
 
-- [Chrome Web Store](#chrome-web-store)
-- [Firefox Addon Store](#firefox-addon-store)
-- [Edge Addons](#edge-addons)
+- [Chrome 网上应用店](#chrome-web-store)
+- [Firefox 附加组件商店](#firefox-addon-store)
+- [Edge 附加组件](#edge-addons)
 
-## Automation
+## 自动化
 
-WXT provides two commands to help automate submitting a new version for review and publishing:
+WXT 提供了两个命令，帮助你自动化提交新版本审核和发布的流程：
 
-- `wxt submit init`: Setup all the required secrets and options for the `wxt submit` command
-- `wxt submit`: Submit new versions of your extension for review (and publish them automatically once approved)
+- `wxt submit init`：为 `wxt submit` 命令设置所有必需的密钥和选项
+- `wxt submit`：将你的扩展新版本提交审核（审核通过后自动发布）
 
-To get started, run `wxt submit init` and follow the prompts, or run `wxt submit --help` to view all available options. Once finished, you should have a `.env.submit` file! WXT will use this file to submit your updates.
+开始使用时，运行 `wxt submit init` 并按照提示操作，或运行 `wxt submit --help` 查看所有可用选项。完成后，你应该会有一个 `.env.submit` 文件！WXT 会使用此文件来提交你的更新。
 
-> In CI, make sure you add all the environment variables to the submit step.
+> 在 CI 环境下，请确保你已将所有环境变量添加到 submit 步骤中。
 
-To submit a new version for publishing, build all the ZIPs you plan on releasing:
+要提交新版本进行发布，先构建你要发布的所有 ZIP 包：
 
 ```sh
 wxt zip
 wxt zip -b firefox
 ```
 
-Then run the `wxt submit` command, passing in all the ZIP files you want to release. In this case, we'll do a release for all 3 major stores: Chrome Web Store, Edge Addons, and Firefox Addons Store.
+然后运行 `wxt submit` 命令，传入你要发布的所有 ZIP 文件。下面的例子会同时发布到三大主流商店：Chrome 网上应用店、Edge 附加组件和 Firefox 附加组件商店。
 
-If it's your first time running the command or you recently made changes to the release process, you'll want to test your secrets by passing the `--dry-run` flag.
+如果是第一次运行该命令，或者你最近更改了发布流程，建议先用 `--dry-run` 标志测试你的密钥。
 
 ```sh
 wxt submit --dry-run \
@@ -45,7 +45,7 @@ wxt submit --dry-run \
   --edge-zip .output/{your-extension}-{version}-chrome.zip
 ```
 
-If the dry run passes, remove the flag and do the actual release:
+如果测试通过，去掉该标志进行正式发布：
 
 ```sh
 wxt submit \
@@ -55,12 +55,12 @@ wxt submit \
 ```
 
 :::warning
-See the [Firefox Addon Store](#firefox-addon-store) section for more details about the `--firefox-sources-zip` option.
+关于 `--firefox-sources-zip` 选项的更多细节，请参阅 [Firefox 附加组件商店](#firefox-addon-store) 部分。
 :::
 
 ## GitHub Action
 
-Here's an example of a GitHub Action that submits new versions of an extension for review. Ensure that you've added all required secrets used in the workflow to the repo's settings.
+下面是一个 GitHub Action 示例，用于将新版本扩展提交审核。请确保你已将工作流中用到的所有密钥添加到仓库设置中。
 
 ```yml
 name: Release
@@ -104,34 +104,34 @@ jobs:
           FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
 ```
 
-The action above lays the foundation for a basic workflow, including `zip` and `submit` steps. To further enhance your GitHub Action and delve into more complex scenarios, consider exploring the following examples from real projects. They introduce advanced features such as version management, changelog generation, and GitHub releases, tailored for different needs:
+上面的 action 提供了一个基础工作流，包括 `zip` 和 `submit` 步骤。想要进一步增强你的 GitHub Action 并处理更复杂的场景，可以参考以下真实项目的例子。这些例子介绍了版本管理、changelog 生成和 GitHub 发布等高级功能，适用于不同需求：
 
-- [`aklinker1/github-better-line-counts`](https://github.com/aklinker1/github-better-line-counts/blob/main/.github/workflows/submit.yml) - Conventional commits, automated version bump and changelog generation, triggered manually, optional dry run for testing
-- [`GuiEpi/plex-skipper`](https://github.com/GuiEpi/plex-skipper/blob/main/.github/workflows/deploy.yml) - Triggered automatically when `package.json` version is changed, creates and uploads artifacts to GitHub release.
+- [`aklinker1/github-better-line-counts`](https://github.com/aklinker1/github-better-line-counts/blob/main/.github/workflows/submit.yml) - 使用 conventional commits，自动版本提升和 changelog 生成，手动触发，支持 dry run 测试
+- [`GuiEpi/plex-skipper`](https://github.com/GuiEpi/plex-skipper/blob/main/.github/workflows/deploy.yml) - 当 `package.json` 版本变更时自动触发，创建并上传构建产物到 GitHub release。
 
-> These examples are designed to provide clear insights and are a good starting point for customizing your own workflows. Feel free to explore and adapt them to your project needs.
+> 这些例子旨在提供清晰的参考，是自定义你自己工作流的良好起点。欢迎根据项目需求自由探索和调整。
 
-## Stores
+## 商店
 
-### Chrome Web Store
+### Chrome 网上应用店
 
-> ✅ Supported &bull; [Developer Dashboard](https://chrome.google.com/webstore/developer/dashboard) &bull; [Publishing Docs](https://developer.chrome.com/docs/webstore/publish/)
+> ✅ 支持 &bull; [开发者后台](https://chrome.google.com/webstore/developer/dashboard) &bull; [发布文档](https://developer.chrome.com/docs/webstore/publish/)
 
-To create a ZIP for Chrome:
+为 Chrome 创建 ZIP 包：
 
 ```sh
 wxt zip
 ```
 
-### Firefox Addon Store
+### Firefox 附加组件商店
 
-> ✅ Supported &bull; [Developer Dashboard](https://addons.mozilla.org/developers/) &bull; [Publishing Docs](https://extensionworkshop.com/documentation/publish/submitting-an-add-on/)
+> ✅ 支持 &bull; [开发者后台](https://addons.mozilla.org/developers/) &bull; [发布文档](https://extensionworkshop.com/documentation/publish/submitting-an-add-on/)
 
-Firefox requires you to upload a ZIP of your source code. This allows them to rebuild your extension and review the code in a readable way. More details can be found in [Firefox's docs](https://extensionworkshop.com/documentation/publish/source-code-submission/).
+Firefox 要求你上传源码 ZIP。这样他们可以重建你的扩展，并以可读的方式审核代码。更多细节见 [Firefox 官方文档](https://extensionworkshop.com/documentation/publish/source-code-submission/)。
 
-When running `wxt zip -b firefox`, WXT will zip both your extension and sources. Certain files (such as config files, hidden files, tests, and excluded entrypoints) are automatically excluded from your sources. However, it's important to manually check the ZIP to ensure it only contains the files necessary to rebuild your extension.
+运行 `wxt zip -b firefox` 时，WXT 会同时打包扩展和源码。某些文件（如配置文件、隐藏文件、测试和被排除的入口文件）会自动从源码包中排除。但你仍需手动检查 ZIP，确保其中只包含重建扩展所需的文件。
 
-To customize which files are zipped, add the `zip` option to your config file.
+如需自定义打包文件，可在配置文件中添加 `zip` 选项。
 
 ```ts [wxt.config.ts]
 import { defineConfig } from 'wxt';
@@ -143,7 +143,7 @@ export default defineConfig({
 });
 ```
 
-If it's your first time submitting to the Firefox Addon Store, or if you've updated your project layout, always test your sources ZIP! The commands below should allow you to rebuild your extension from inside the extracted ZIP.
+如果你是第一次提交到 Firefox 附加组件商店，或最近更改了项目结构，请务必测试你的源码 ZIP！在解压后的目录下运行以下命令，应该可以重新构建你的扩展。
 
 :::code-group
 
@@ -169,19 +169,19 @@ bun zip:firefox
 
 :::
 
-Ensure that you have a `README.md` or `SOURCE_CODE_REVIEW.md` file with the above commands so that the Firefox team knows how to build your extension.
+请确保你有 `README.md` 或 `SOURCE_CODE_REVIEW.md` 文件，并写明上述命令，方便 Firefox 团队了解如何构建你的扩展。
 
-Make sure the build output is the exact same when running `wxt build -b firefox` in your main project and inside the zipped sources.
+确保在主项目和源码包内运行 `wxt build -b firefox` 时，构建产物完全一致。
 
 :::warning
-If you use a `.env` files, they can affect the chunk hashes in the output directory. Either delete the .env file before running `wxt zip -b firefox`, or include it in your sources zip with the [`zip.includeSources`](/api/reference/wxt/interfaces/InlineConfig#includesources) option. Be careful to not include any secrets in your `.env` files.
+如果你使用 `.env` 文件，它可能会影响输出目录中的 chunk hash。要么在运行 `wxt zip -b firefox` 前删除 .env 文件，要么通过 [`zip.includeSources`](/api/reference/wxt/interfaces/InlineConfig#includesources) 选项将其包含进源码包。注意不要在 `.env` 文件中包含任何敏感信息。
 
-See Issue [#377](https://github.com/wxt-dev/wxt/issues/377) for more details.
+详见 Issue [#377](https://github.com/wxt-dev/wxt/issues/377)。
 :::
 
-#### Private Packages
+#### 私有包
 
-If you use private packages and you don't want to provide your auth token to the Firefox team during the review process, you can use `zip.downloadPackages` to download any private packages and include them in the zip.
+如果你使用了私有包，并且不想在审核过程中向 Firefox 团队提供你的认证 token，可以使用 `zip.downloadPackages` 下载私有包并包含进源码包。
 
 ```ts [wxt.config.ts]
 export default defineConfig({
@@ -194,34 +194,34 @@ export default defineConfig({
 });
 ```
 
-Depending on your package manager, the `package.json` in the sources zip will be modified to use the downloaded dependencies via the `overrides` or `resolutions` field.
+根据你的包管理器，源码包中的 `package.json` 会通过 `overrides` 或 `resolutions` 字段修改为使用已下载的依赖。
 
 :::warning
-WXT uses the command `npm pack <package-name>` to download the package. That means regardless of your package manager, you need to properly setup a `.npmrc` file. NPM and PNPM both respect `.npmrc` files, but Yarn and Bun have their own ways of authorizing private registries, so you'll need to add a `.npmrc` file.
+WXT 使用命令 `npm pack <package-name>` 下载包。无论你用什么包管理器，都需要正确配置 `.npmrc` 文件。NPM 和 PNPM 都支持 `.npmrc`，但 Yarn 和 Bun 有各自的私有源认证方式，因此你需要额外添加 `.npmrc` 文件。
 :::
 
 ### Safari
 
-> 🚧 Not supported yet
+> 🚧 暂不支持
 
-WXT does not currently support automated publishing for Safari. Safari extensions require a native MacOS or iOS app wrapper, which WXT does not create yet. For now, if you want to publish to Safari, follow this guide:
+WXT 目前不支持 Safari 的自动化发布。Safari 扩展需要原生的 MacOS 或 iOS 应用包装，WXT 还无法生成。若需发布到 Safari，请参考以下指南：
 
-- [Converting a web extension for Safari](https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari) - "Convert your existing extension to a Safari web extension using Xcode’s command-line tool."
+- [将 Web 扩展转换为 Safari 扩展](https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari) - “使用 Xcode 命令行工具将现有扩展转换为 Safari Web 扩展。”
 
-When running the `safari-web-extension-converter` CLI tool, pass the `.output/safari-mv2` or `.output/safari-mv3` directory, not your source code directory.
+运行 `safari-web-extension-converter` CLI 工具时，请传入 `.output/safari-mv2` 或 `.output/safari-mv3` 目录，而不是源码目录。
 
 ```sh
 pnpm wxt build -b safari
 xcrun safari-web-extension-converter .output/safari-mv2
 ```
 
-### Edge Addons
+### Edge 附加组件
 
-> ✅ Supported &bull; [Developer Dashboard](https://aka.ms/PartnerCenterLogin) &bull; [Publishing Docs](https://learn.microsoft.com/en-us/microsoft-edge/extensions-chromium/publish/publish-extension)
+> ✅ 支持 &bull; [开发者后台](https://aka.ms/PartnerCenterLogin) &bull; [发布文档](https://learn.microsoft.com/en-us/microsoft-edge/extensions-chromium/publish/publish-extension)
 
-No need to create a specific ZIP for Edge. If you're already publishing to the Chrome Web Store, you can reuse your Chrome ZIP.
+无需为 Edge 单独创建 ZIP。如果你已经为 Chrome 网上应用店打包，可以直接复用 Chrome 的 ZIP 包。
 
-However, if you have features specifically for Edge, create a separate ZIP with:
+但如果你有专为 Edge 定制的功能，可以用以下命令单独打包：
 
 ```sh
 wxt zip -b edge

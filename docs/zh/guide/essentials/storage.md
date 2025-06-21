@@ -1,15 +1,15 @@
-# Storage
+# 存储
 
-[Chrome Docs](https://developer.chrome.com/docs/extensions/reference/api/storage) • [Firefox Docs](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage)
+[Chrome 文档](https://developer.chrome.com/docs/extensions/reference/api/storage) • [Firefox 文档](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage)
 
-You can use the vanilla APIs (see docs above), use [WXT's built-in storage API](/storage), or install a package from NPM.
+你可以使用原生 API（见上方文档）、使用 [WXT 内置的存储 API](/storage)，或从 NPM 安装一个包。
 
-## Alternatives
+## 替代方案
 
-1. [`wxt/utils/storage`](/storage) (recommended): WXT ships with its own wrapper around the vanilla storage APIs that simplifies common use cases
+1. [`wxt/utils/storage`](/storage)（推荐）：WXT 自带了对原生存储 API 的封装，简化了常见用例
 
-2. DIY: If you're migrating to WXT and already have a storage wrapper, keep using it. In the future, if you want to delete that code, you can use one of these alternatives, but there's no reason to replace working code during a migration.
+2. 自己实现：如果你正在迁移到 WXT 并且已经有了自己的存储封装，可以继续使用它。将来如果你想删除那部分代码，可以使用这些替代方案之一，但在迁移过程中没有必要替换已经可用的代码。
 
-3. Any other NPM package: [There are lots of wrappers around the storage API](https://www.npmjs.com/search?q=chrome%20storage), you can find one you like. Here's some popular ones:
-   - [`webext-storage`](https://www.npmjs.com/package/webext-storage) - A more usable typed storage API for Web Extensions
-   - [`@webext-core/storage`](https://www.npmjs.com/package/@webext-core/storage) - A type-safe, localStorage-esque wrapper around the web extension storage APIs
+3. 其他 NPM 包：[有很多对存储 API 的封装包](https://www.npmjs.com/search?q=chrome%20storage)，你可以选择自己喜欢的。这里有一些流行的包：
+   - [`webext-storage`](https://www.npmjs.com/package/webext-storage) - 一个更易用的、带类型的 Web 扩展存储 API
+   - [`@webext-core/storage`](https://www.npmjs.com/package/@webext-core/storage) - 一个类型安全、类似 localStorage 的 Web 扩展存储 API 封装
