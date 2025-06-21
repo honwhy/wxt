@@ -1,8 +1,8 @@
-# TypeScript Configuration
+# TypeScript 配置
 
-When you run [`wxt prepare`](/api/cli/wxt-prepare), WXT generates a base TSConfig file for your project at `<rootDir>/.wxt/tsconfig.json`.
+当你运行 [`wxt prepare`](/api/cli/wxt-prepare) 时，WXT 会在你的项目根目录下生成一个基础的 TSConfig 文件，路径为 `<rootDir>/.wxt/tsconfig.json`。
 
-At a minimum, you need to create a TSConfig in your root directory that looks like this:
+至少，你需要在根目录下创建一个 TSConfig 文件，如下所示：
 
 ```jsonc
 // <rootDir>/tsconfig.json
@@ -11,15 +11,15 @@ At a minimum, you need to create a TSConfig in your root directory that looks li
 }
 ```
 
-Or if you're in a monorepo, you may not want to extend the config. If you don't extend it, you need to add `.wxt/wxt.d.ts` to the TypeScript project:
+如果你在一个 monorepo 中，你可能不想继承该配置。如果你不继承它，你需要将 `.wxt/wxt.d.ts` 添加到 TypeScript 项目中：
 
 ```ts
 /// <reference path="./.wxt/wxt.d.ts" />
 ```
 
-## Compiler Options
+## 编译器选项
 
-To specify custom compiler options, add them in `<rootDir>/tsconfig.json`:
+如需指定自定义编译器选项，请在 `<rootDir>/tsconfig.json` 中添加：
 
 ```jsonc
 // <rootDir>/tsconfig.json
@@ -31,29 +31,29 @@ To specify custom compiler options, add them in `<rootDir>/tsconfig.json`:
 }
 ```
 
-## TSConfig Paths
+## TSConfig 路径别名
 
-WXT provides a default set of path aliases.
+WXT 提供了一组默认的路径别名。
 
-| Alias | To            | Example                                         |
-| ----- | ------------- | ----------------------------------------------- |
-| `~~`  | `<rootDir>/*` | `import "~~/scripts"`                           |
-| `@@`  | `<rootDir>/*` | `import "@@/scripts"`                           |
-| `~`   | `<srcDir>/*`  | `import { toLowerCase } from "~/utils/strings"` |
-| `@`   | `<srcDir>/*`  | `import { toLowerCase } from "@/utils/strings"` |
+| 别名 | 指向          | 示例                                            |
+| ---- | ------------- | ----------------------------------------------- |
+| `~~` | `<rootDir>/*` | `import "~~/scripts"`                           |
+| `@@` | `<rootDir>/*` | `import "@@/scripts"`                           |
+| `~`  | `<srcDir>/*`  | `import { toLowerCase } from "~/utils/strings"` |
+| `@`  | `<srcDir>/*`  | `import { toLowerCase } from "@/utils/strings"` |
 
-To add your own, DO NOT add them to your `tsconfig.json`! Instead, use the [`alias` option](/api/reference/wxt/interfaces/InlineConfig#alias) in `wxt.config.ts`.
+如需添加自定义别名，**不要**将它们添加到你的 `tsconfig.json`！请在 `wxt.config.ts` 中使用 [`alias` 选项](/api/reference/wxt/interfaces/InlineConfig#alias)。
 
-This will add your custom aliases to `<rootDir>/.wxt/tsconfig.json` next time you run `wxt prepare`. It also adds your alias to the bundler so it can resolve imports.
+下次运行 `wxt prepare` 时，这会将你的自定义别名添加到 `<rootDir>/.wxt/tsconfig.json`。它还会将你的别名添加到打包工具中，以便解析导入。
 
 ```ts
 import { resolve } from 'node:path';
 
 export default defineConfig({
   alias: {
-    // Directory:
+    // 目录：
     testing: resolve('utils/testing'),
-    // File:
+    // 文件：
     strings: resolve('utils/strings.ts'),
   },
 });

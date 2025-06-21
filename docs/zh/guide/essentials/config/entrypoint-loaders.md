@@ -1,19 +1,19 @@
-# Entrypoint Loaders
+# 入口加载器
 
-To generate the manifest and other files at build-time, WXT must import each entrypoint to get their options, like content script `matches`. For HTML files, this is easy. For JS/TS entrypoints, the process is more complicated.
+为了在构建时生成 manifest 及其他文件，WXT 必须导入每个入口文件以获取它们的选项，比如内容脚本的 `matches`。对于 HTML 文件，这很简单。对于 JS/TS 入口文件，过程则更为复杂。
 
-When loading your JS/TS entrypoints, they are imported into a NodeJS environment, not the `browser` environment that they normally run in. This can lead to issues commonly seen when running browser-only code in a NodeJS environment, like missing global variables.
+在加载 JS/TS 入口文件时，它们会被导入到 NodeJS 环境中，而不是它们通常运行的 `browser` 环境。这可能会导致在 NodeJS 环境中运行仅限浏览器的代码时常见的问题，比如缺少全局变量。
 
-WXT does several pre-processing steps to try and prevent errors during this process:
+WXT 会进行一些预处理步骤，以尽量防止此过程中的错误：
 
-1. Use `linkedom` to make a small set of browser globals (`window`, `document`, etc) available.
-2. Use `@webext-core/fake-browser` to create a fake version of the `chrome` and `browser` globals expected by extensions.
-3. Pre-process the JS/TS code, stripping out the `main` function then tree-shaking unused code from the file
+1. 使用 `linkedom` 提供一小部分浏览器全局变量（如 `window`、`document` 等）。
+2. 使用 `@webext-core/fake-browser` 创建扩展程序常用的 `chrome` 和 `browser` 全局变量的假版本。
+3. 预处理 JS/TS 代码，剥离 `main` 函数，然后对文件进行 tree-shaking，移除未使用的代码。
 
-However, this process is not perfect. It doesn't setup all the globals found in the browser and the APIs may behave differently. As such, **_you should avoid using browser or extension APIs outside the `main` function of your entrypoints!_**
+然而，这一过程并不完美。它不会设置浏览器中所有的全局变量，并且这些 API 的行为可能有所不同。因此，**_你应当避免在入口文件的 `main` 函数之外使用浏览器或扩展 API！_**
 
 :::tip
-If you're running into errors while importing entrypoints, run `wxt prepare --debug` to see more details about this process. When debugging, WXT will print out the pre-processed code to help you identify issues.
+如果你在导入入口文件时遇到错误，可以运行 `wxt prepare --debug` 查看该过程的更多细节。在调试时，WXT 会打印出预处理后的代码，帮助你定位问题。
 :::
 
-Once the environment has been polyfilled and your code pre-processed, it's up the entrypoint loader to import your code, extracting the options from the default export.
+一旦环境被 polyfill 并且你的代码被预处理后，入口加载器会导入你的代码，并从默认导出中提取选项。

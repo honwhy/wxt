@@ -1,10 +1,10 @@
-# Hooks
+# 钩子（Hooks）
 
-WXT includes a system that lets you hook into the build process and make changes.
+WXT 包含一个允许你在构建过程中进行钩入并做出更改的系统。
 
-## Adding Hooks
+## 添加钩子
 
-The easiest way to add a hook is via the `wxt.config.ts`. Here's an example hook that modifies the `manifest.json` file before it is written to the output directory:
+添加钩子最简单的方法是在 `wxt.config.ts` 文件中。下面是一个在 `manifest.json` 文件写入输出目录前进行修改的示例钩子：
 
 ```ts [wxt.config.ts]
 export default defineConfig({
@@ -18,19 +18,19 @@ export default defineConfig({
 });
 ```
 
-Most hooks provide the `wxt` object as the first argument. It contains the resolved config and other info about the current build. The other arguments can be modified by reference to change different parts of the build system.
+大多数钩子会提供 `wxt` 对象作为第一个参数。它包含了解析后的配置和当前构建的其他信息。其他参数可以通过引用进行修改，从而改变构建系统的不同部分。
 
-Putting one-off hooks like this in your config file is simple, but if you find yourself writing lots of hooks, you should extract them into [WXT Modules](/guide/essentials/wxt-modules) instead.
+将这种一次性的钩子放在配置文件中很简单，但如果你发现自己写了很多钩子，建议将它们提取到 [WXT 模块](/guide/essentials/wxt-modules) 中。
 
-## Execution Order
+## 执行顺序
 
-Because hooks can be defined in multiple places, including [WXT Modules](/guide/essentials/wxt-modules), the order which they're executed can matter. Hooks are executed in the following order:
+由于钩子可以在多个地方定义，包括 [WXT 模块](/guide/essentials/wxt-modules)，因此它们的执行顺序可能很重要。钩子的执行顺序如下：
 
-1. NPM modules in the order listed in the [`modules` config](/api/reference/wxt/interfaces/InlineConfig#modules)
-2. User modules in [`/modules` folder](/guide/essentials/project-structure), loaded alphabetically
-3. Hooks listed in your `wxt.config.ts`
+1. NPM 模块，按照 [`modules` 配置](/api/reference/wxt/interfaces/InlineConfig#modules) 中的顺序
+2. 用户模块，位于 [`/modules` 文件夹](/guide/essentials/project-structure)中，按字母顺序加载
+3. 在你的 `wxt.config.ts` 文件中列出的钩子
 
-To see the order for your project, run `wxt prepare --debug` flag and search for the "Hook execution order":
+要查看你项目的实际顺序，可以运行 `wxt prepare --debug` 并查找 "Hook execution order"：
 
 ```plaintext
 ⚙ Hook execution order:
@@ -41,9 +41,9 @@ To see the order for your project, run `wxt prepare --debug` flag and search for
 ⚙   5. wxt.config.ts > hooks
 ```
 
-Changing execution order is simple:
+更改执行顺序很简单：
 
-- Prefix your user modules with a number (lower numbers are loaded first):
+- 给你的用户模块加上数字前缀（数字越小越先加载）：
   <!-- prettier-ignore -->
   ```html
   📁 modules/
@@ -51,7 +51,7 @@ Changing execution order is simple:
      📄 1.another-module.ts
   ```
 
-- If you need to run an NPM module after user modules, just make it a user module and prefix the filename with a number!
+- 如果你需要让某个 NPM 模块在用户模块之后运行，只需将其作为用户模块引入，并给文件名加上数字前缀即可！
 
   ```ts
   // modules/2.i18n.ts

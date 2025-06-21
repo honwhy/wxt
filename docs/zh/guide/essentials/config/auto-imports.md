@@ -1,32 +1,32 @@
-# Auto-imports
+# 自动导入（Auto-imports）
 
-WXT uses [`unimport`](https://www.npmjs.com/package/unimport), the same tool as Nuxt, to setup auto-imports.
+WXT 使用了和 Nuxt 相同的工具 [`unimport`](https://www.npmjs.com/package/unimport) 来实现自动导入。
 
 ```ts
 export default defineConfig({
-  // See https://www.npmjs.com/package/unimport#configurations
+  // 参见 https://www.npmjs.com/package/unimport#configurations
   imports: {
     // ...
   },
 });
 ```
 
-By default, WXT automatically sets up auto-imports for all of it's own APIs and some of your project directories:
+默认情况下，WXT 会自动为它自己的所有 API 以及你项目中的部分目录设置自动导入：
 
 - `<srcDir>/components/*`
 - `<srcDir>/composables/*`
 - `<srcDir>/hooks/*`
 - `<srcDir>/utils/*`
 
-All named and default exports from files in these directories are available everywhere else in your project without having to import them.
+这些目录下文件的所有具名和默认导出都可以在项目的其他地方直接使用，无需手动导入。
 
-To see the complete list of auto-imported APIs, run [`wxt prepare`](/api/cli/wxt-prepare) and look at your project's `.wxt/types/imports-module.d.ts` file.
+要查看完整的自动导入 API 列表，可以运行 [`wxt prepare`](/api/cli/wxt-prepare) 并查看你项目中的 `.wxt/types/imports-module.d.ts` 文件。
 
 ## TypeScript
 
-For TypeScript and your editor to recognize auto-imported variables, you need to run the [`wxt prepare` command](/api/cli/wxt-prepare).
+为了让 TypeScript 和你的编辑器识别自动导入的变量，你需要运行 [`wxt prepare` 命令](/api/cli/wxt-prepare)。
 
-Add this command to your `postinstall` script so your editor has everything it needs to report type errors after installing dependencies:
+建议将该命令添加到你的 `postinstall` 脚本中，这样在安装依赖后编辑器就能正确识别类型错误：
 
 ```jsonc
 // package.json
@@ -39,7 +39,7 @@ Add this command to your `postinstall` script so your editor has everything it n
 
 ## ESLint
 
-ESLint doesn't know about the auto-imported variables unless they are explicitly defined in the ESLint's `globals`. By default, WXT will generate the config if it detects ESLint is installed in your project. If the config isn't generated automatically, you can manually tell WXT to generate it.
+ESLint 默认并不知道自动导入的变量，除非你在 ESLint 的 `globals` 中显式定义。WXT 会在检测到你的项目安装了 ESLint 时自动生成相关配置。如果没有自动生成，你也可以手动让 WXT 生成。
 
 :::code-group
 
@@ -65,7 +65,7 @@ export default defineConfig({
 
 :::
 
-Then in your ESLint config, import and use the generated file:
+然后在你的 ESLint 配置中引入并使用生成的文件：
 
 :::code-group
 
@@ -76,7 +76,7 @@ import autoImports from './.wxt/eslint-auto-imports.mjs';
 export default [
   autoImports,
   {
-    // The rest of your config...
+    // 你的其他配置...
   },
 ];
 ```
@@ -85,15 +85,15 @@ export default [
 // .eslintrc.mjs
 export default {
   extends: ['./.wxt/eslintrc-auto-import.json'],
-  // The rest of your config...
+  // 你的其他配置...
 };
 ```
 
 :::
 
-## Disabling Auto-imports
+## 禁用自动导入
 
-Not all developers like auto-imports. To disable them, set `imports` to `false`.
+并不是所有开发者都喜欢自动导入。要禁用自动导入，只需将 `imports` 设置为 `false`。
 
 ```ts
 export default defineConfig({
@@ -101,9 +101,9 @@ export default defineConfig({
 });
 ```
 
-## Explicit Imports (`#imports`)
+## 显式导入（`#imports`）
 
-You can manually import all of WXT's APIs via the `#imports` module:
+你可以通过 `#imports` 模块手动导入 WXT 的所有 API：
 
 ```ts
 import {
@@ -113,6 +113,6 @@ import {
 } from '#imports';
 ```
 
-To learn more about how the `#imports` module works, read the [related blog post](/blog/2024-12-06-using-imports-module).
+想了解 `#imports` 模块的更多信息，请阅读[相关博客文章](/blog/2024-12-06-using-imports-module)。
 
-If you've disabled auto-imports, you should still use `#imports` to import all of WXT's APIs from a single place.
+如果你禁用了自动导入，仍然建议通过 `#imports` 从同一个地方导入所有 API。

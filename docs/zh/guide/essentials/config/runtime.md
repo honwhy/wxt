@@ -1,13 +1,13 @@
-# Runtime Config
+# 运行时配置
 
-> This API is still a WIP, with more features coming soon!
+> 此 API 仍在开发中，更多功能即将推出！
 
-Define runtime configuration in a single place, `<srcDir>/app.config.ts`:
+在一个地方定义运行时配置，`<srcDir>/app.config.ts`：
 
 ```ts
 import { defineAppConfig } from '#imports';
 
-// Define types for your config
+// 为你的配置定义类型
 declare module 'wxt/utils/define-app-config' {
   export interface WxtAppConfig {
     theme?: 'light' | 'dark';
@@ -20,10 +20,10 @@ export default defineAppConfig({
 ```
 
 :::warning
-This file is committed to the repo, so don't put any secrets here. Instead, use [Environment Variables](/guide/essentials/config/environment-variables)
+此文件会被提交到仓库，因此不要在这里放任何密钥。请使用 [环境变量](/guide/essentials/config/environment-variables)。
 :::
 
-To access runtime config, WXT provides the `useAppConfig` function:
+要访问运行时配置，WXT 提供了 `useAppConfig` 函数：
 
 ```ts
 import { useAppConfig } from '#imports';
@@ -31,9 +31,9 @@ import { useAppConfig } from '#imports';
 console.log(useAppConfig()); // { theme: "dark" }
 ```
 
-## Environment Variables in App Config
+## 在 App Config 中使用环境变量
 
-You can use environment variables in the `app.config.ts` file.
+你可以在 `app.config.ts` 文件中使用环境变量。
 
 ```ts
 declare module 'wxt/utils/define-app-config' {
@@ -49,8 +49,8 @@ export default defineAppConfig({
 });
 ```
 
-This has several advantages:
+这样做有几个优点：
 
-- Define all expected environment variables in a single file
-- Convert strings to other types, like booleans or arrays
-- Provide default values if an environment variable is not provided
+- 在一个文件中定义所有期望的环境变量
+- 将字符串转换为其他类型，如布尔值或数组
+- 如果没有提供环境变量，可以设置默认值
