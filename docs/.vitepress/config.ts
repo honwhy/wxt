@@ -135,13 +135,13 @@ export default defineConfig({
               menuItem('发布', 'publishing.md'),
               menuItem('Testing Updates', 'testing-updates.md'),
             ]),
-            menuGroup('Resources', '/guide/resources/', [
-              menuItem('Compare', 'compare.md'),
-              menuItem('FAQ', 'faq.md'),
-              menuItem('Community', 'community.md'),
-              menuItem('Upgrading WXT', 'upgrading.md'),
-              menuItem('Migrate to WXT', 'migrate.md'),
-              menuItem('How WXT Works', 'how-wxt-works.md'),
+            menuGroup('资源', '/zh/guide/resources/', [
+              menuItem('对比', 'compare.md'),
+              menuItem('常见问题', 'faq.md'),
+              menuItem('社区', 'community.md'),
+              menuItem('升级WXT', 'upgrading.md'),
+              menuItem('迁移到WXT', 'migrate.md'),
+              menuItem('WXT工作原理', 'how-wxt-works.md'),
             ]),
           ]),
           '/api/': menuRoot([

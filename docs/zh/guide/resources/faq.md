@@ -2,47 +2,47 @@
 outline: false
 ---
 
-# FAQ
+# 常见问题（FAQ）
 
-Commonly asked questions about how to use WXT or why it behaves the way it does.
+关于如何使用 WXT 或其行为方式的常见问题。
 
 [[toc]]
 
-## Why aren't content scripts added to the manifest?
+## 为什么内容脚本没有被添加到 manifest？
 
-During development, WXT registers content scripts dynamically so they can be reloaded individually when a file is saved without reloading your entire extension.
+在开发过程中，WXT 会动态注册内容脚本，这样当你保存文件时可以单独重新加载内容脚本，而无需重新加载整个扩展。
 
-To list the content scripts registered during development, open the service worker's console and run:
+要列出开发期间注册的内容脚本，请打开 service worker 的控制台并运行：
 
 ```js
 await chrome.scripting.getRegisteredContentScripts();
 ```
 
-## How do I disable opening the browser automatically during development?
+## 如何在开发时禁用自动打开浏览器？
 
-See <https://wxt.dev/guide/essentials/config/browser-startup.html#disable-opening-browser>
+参见 <https://wxt.dev/guide/essentials/config/browser-startup.html#disable-opening-browser>
 
-## How do I stay logged into a website during development?
+## 如何在开发时保持登录状态？
 
-See <https://wxt.dev/guide/essentials/config/browser-startup.html#persist-data>
+参见 <https://wxt.dev/guide/essentials/config/browser-startup.html#persist-data>
 
-## My component library doesn't work in content scripts
+## 我的组件库在内容脚本中无法正常工作
 
-This is usually caused by one of two things (or both) when using `createShadowRootUi`:
+当你使用 `createShadowRootUi` 时，通常有两个原因（或两者兼有）导致此问题：
 
-1. Styles are added outside the `ShadowRoot`
+1. 样式被添加到了 `ShadowRoot` 之外
 
    :::details
-   Some component libraries manually add CSS to the page by adding a `<style>` or `<link>` element. They place this element in the document's `<head>` by default. This causes your styles to be placed outside the `ShadowRoot` and it's isolation blocks the styles from being applied to your UI.
+   一些组件库会通过添加 `<style>` 或 `<link>` 元素手动将 CSS 添加到页面。它们默认将该元素放在文档的 `<head>` 中。这会导致你的样式被放在 `ShadowRoot` 之外，而其隔离性会阻止样式应用到你的 UI 上。
 
-   When a library does this, **you need to tell the library where to put its styles**. Here's the documentation for a few popular component libraries:
+   当库这样做时，**你需要告诉库将样式放在哪里**。以下是一些流行组件库的相关文档：
 
    - Ant Design: [`StyleProvider`](https://ant.design/docs/react/compatible-style#shadow-dom-usage)
-   - Mantine: [`MantineProvider#getRootElement` and `MantineProvider#cssVariablesSelector`](https://mantine.dev/theming/mantine-provider/)
+   - Mantine: [`MantineProvider#getRootElement` 和 `MantineProvider#cssVariablesSelector`](https://mantine.dev/theming/mantine-provider/)
 
-   > If your library isn't listed above, try searching it's docs/issues for "shadow root", "shadow dom", or "css container". Not all libraries support shadow DOMs, you may have to open an issue to request this feature.
+   > 如果你的库不在上面列表中，请尝试在其文档/issue 中搜索“shadow root”、“shadow dom”或“css container”。并非所有库都支持 shadow DOM，你可能需要提交 issue 请求此功能。
 
-   Here's an example of configuring Antd's styles:
+   下面是配置 Antd 样式的示例：
 
    ```tsx
    import { StyleProvider } from '@ant-design/cssinjs';
@@ -66,14 +66,14 @@ This is usually caused by one of two things (or both) when using `createShadowRo
 
    :::
 
-2. UI elements are added outside the `ShadowRoot`
+2. UI 元素被添加到了 `ShadowRoot` 之外
 
    ::::::details
-   This is mostly caused by `Teleport` or `Portal` components that render an element somewhere else in the DOM, usually in the document's `<body>`. This is usually done for dialogs or popover components. This renders the element is outside the `ShadowRoot`, so styles are not applied to it.
+   这通常是由于 `Teleport` 或 `Portal` 组件导致的，它们会将元素渲染到 DOM 的其他地方，通常是在文档的 `<body>` 中。这通常用于对话框或弹出组件。这样渲染的元素就在 `ShadowRoot` 之外，因此样式不会被应用。
 
-   To fix this, **you need to both provide a target to your app AND pass the target to the `Teleport`/`Portal`**.
+   要解决此问题，**你需要同时为你的应用提供目标，并将目标传递给 `Teleport`/`Portal`**。
 
-   First, store the reference to the `ShadowRoot`'s `<body>` element (not the document's `<body>`):
+   首先，存储对 `ShadowRoot` 的 `<body>` 元素（不是文档的 `<body>`）的引用：
 
    :::code-group
 
@@ -123,7 +123,7 @@ This is usually caused by one of two things (or both) when using `createShadowRo
 
    :::
 
-   Then use the reference when teleporting/portaling part of your UI to a different place in the DOM:
+   然后在将 UI 的一部分传送/挂载到 DOM 的其他位置时使用该引用：
 
    :::code-group
 
@@ -157,33 +157,33 @@ This is usually caused by one of two things (or both) when using `createShadowRo
 
    :::
 
-   If you use ShadCN, [see this blog post](https://aabidk.dev/blog/building-modern-cross-browser-web-extensions-content-scripts-and-ui/#using-radixui-portals-to-move-the-dialog-to-shadow-dom).
+   如果你使用 ShadCN，[请参见这篇博客](https://aabidk.dev/blog/building-modern-cross-browser-web-extensions-content-scripts-and-ui/#using-radixui-portals-to-move-the-dialog-to-shadow-dom)。
 
    ::::::
 
-Both issues have the same cause: the library puts something outside the `ShadowRoot`, and the `ShadowRoot`'s isolation prevents CSS from being applied to your UI.
+这两个问题的根本原因相同：库将某些内容放在了 `ShadowRoot` 之外，而 `ShadowRoot` 的隔离性阻止了 CSS 应用于你的 UI。
 
-Both issues have the same fix: tell the library to put elements inside the `ShadowRoot`, not outside it. See the details above for more information and example fixes for each problem.
+这两个问题的解决方法也相同：告诉库将元素放在 `ShadowRoot` 内部，而不是外部。详见上文的具体说明和每个问题的示例修复方法。
 
-## Is there an LLM trained on WXT's docs that I chat with?
+## 有训练自 WXT 文档的 LLM 可以聊天吗？
 
-Yes! There's a "Ask AI" button in the bottom right of the page, try it out! Or visit <https://knowledge.wxt.dev/> for a fullscreen experience.
+有！页面右下角有“Ask AI”按钮，试试看！或者访问 <https://knowledge.wxt.dev/> 获得全屏体验。
 
-Additionally, if you want to train your own model or provide context to your editor, you can use the LLM knowledge files hosted by the site:
+此外，如果你想训练自己的模型或为编辑器提供上下文，可以使用本站托管的 LLM 知识文件：
 
 <https://wxt.dev/knowledge/index.json>
 
-You don't need to crawl the entire website, these files already contain all the relevant docs for training a LLM on WXT. But feel free to crawl it and generate your own files if you want!
+你无需爬取整个网站，这些文件已经包含了用于训练 WXT LLM 的所有相关文档。当然你也可以自行爬取并生成自己的文件！
 
-## How do I run my WXT project with docker / [devcontainers](https://containers.dev)?
+## 如何用 docker / [devcontainers](https://containers.dev) 运行我的 WXT 项目？
 
-To run the WXT dev server in a devcontainer, but load the dev build of your extension in your browser:
+要在 devcontainer 中运行 WXT 开发服务器，并在浏览器中加载你的扩展开发版本：
 
-1. **Bind-mount your project directory to your host**
-   If you're using VS Code, you can open your project folder with the `Dev Containers: Open Folder in Container...` command. This keeps the folder synchronized between your host and the devcontainer, ensuring that the extension `dist` directory remains accessible from the host.
+1. **将你的项目目录绑定挂载到主机**
+   如果你使用 VS Code，可以通过 `Dev Containers: Open Folder in Container...` 命令在容器中打开你的项目文件夹。这样可以保证该文件夹在主机和 devcontainer 之间同步，确保扩展的 `dist` 目录对主机可见。
 
-2. **Disable auto-opening the browser**
-   WXT automatically opens your browser during development, but since you're running inside a container, it won't be able to access it. Follow [the guide here](https://wxt.dev/guide/essentials/config/browser-startup.html#disable-opening-browser) to disable browser auto-opening in your `wxt.config.ts`.
+2. **禁用自动打开浏览器**
+   WXT 在开发时会自动打开浏览器，但由于你在容器中运行，它无法访问主机浏览器。请按照 [此处指南](https://wxt.dev/guide/essentials/config/browser-startup.html#disable-opening-browser) 在你的 `wxt.config.ts` 中禁用自动打开浏览器。
 
-3. **Tell WXT to listen on all network interfaces**
-   To enable hot-reloading, your extension has to connect to the WXT dev server running inside your container. WXT will only listen on `localhost` by default, which prevents connections from outside the devcontainer. To fix this you can instruct WXT to listen on all interfaces with `wxt --host 0.0.0.0`.
+3. **让 WXT 监听所有网络接口**
+   为了启用热重载，你的扩展需要连接到运行在容器内的 WXT 开发服务器。WXT 默认只监听 `localhost`，这会阻止来自 devcontainer 外部的连接。你可以通过 `wxt --host 0.0.0.0` 指定 WXT 监听所有接口来解决此问题。

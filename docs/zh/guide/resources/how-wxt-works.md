@@ -1,5 +1,5 @@
-# How WXT Works
+# WXT 的工作原理
 
-:::warning 🚧 Under construction
-These docs will be coming soon!
+:::warning 🚧 正在建设中
+这些文档即将上线
 :::

@@ -1,14 +1,14 @@
-# Community
+# 社区
 
-This page is dedicated to all the awesome people how have made something for WXT or that works with WXT. Blog posts, YouTube videos, NPM packages, etc. If a section doesn't exist for the thing you made, add one!
+本页面致力于收录所有为 WXT 做出贡献或与 WXT 相关的优秀作品。包括博客文章、YouTube 视频、NPM 包等。如果你制作的内容没有对应的分类，可以自行添加！
 
 [[toc]]
 
-## Blog Posts
+## 博客文章
 
-- [Building Modern Cross Browser Web Extensions](https://aabidk.dev/tags/wxt/) by Aabid ([@aabidk20](https://github.com/aabidk20))
+- [构建现代跨浏览器 Web 扩展](https://aabidk.dev/tags/wxt/) —— Aabid（[@aabidk20](https://github.com/aabidk20)）
 
-## NPM Packages
+## NPM 包
 
-- [`@webext-core/*`](https://webext-core.aklinker1.io/): Easy-to-use utilities for writing and testing web extensions that work on all browsers.
-- [`Comctx`](https://github.com/molvqingtai/comctx): Cross-context RPC solution with type safety and flexible adapters.
+- [`@webext-core/*`](https://webext-core.aklinker1.io/)：用于编写和测试可在所有浏览器上运行的 Web 扩展的易用工具集。
+- [`Comctx`](https://github.com/molvqingtai/comctx)：具备类型安全和灵活适配器的跨上下文 RPC 解决方案。
