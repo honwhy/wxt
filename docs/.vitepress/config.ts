@@ -174,6 +174,10 @@ export default defineConfig({
       lang: 'en',
     },
   },
+  rewrites: {
+    'zh/index.md': 'index.md',
+    'zh/guide/:slug*': 'guide/:slug*',
+  },
   titleTemplate: `:title${titleSuffix}`,
   title: 'WXT',
   description,
